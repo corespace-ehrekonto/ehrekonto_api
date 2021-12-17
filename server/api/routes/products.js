@@ -11,12 +11,14 @@ router.get('/', (req, res, next) => {
     });
 });
 
+// create the product route
 router.post('/', (req, res, next) => {
     res.status(201).json({
         message: 'Handling POST requests to /products'
     });
 });
 
+// create a get specific product route
 router.get('/:productId', (req, res, next) => {
     const id = req.params.productId;
     if (id === 'test') {
@@ -31,12 +33,14 @@ router.get('/:productId', (req, res, next) => {
     }
 });
 
+// create update product route
 router.patch('/:productId', (req, res, next) => {
     res.status(200).json({
         message: 'Updated product'
     });
 });
 
+// create delete product route
 router.delete('/:productId', (req, res, next) => {
     res.status(200).json({
         message: 'Removed product'
