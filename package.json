@@ -17,6 +17,7 @@
   "author": "AsP3X, M4DMAX, Thonica",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "morgan": "^1.10.0",
