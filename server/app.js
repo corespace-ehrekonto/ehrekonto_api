@@ -1,8 +1,9 @@
 const fs = require('fs');
-const rfs = require('rotating-file-stream');
 const path = require('path');
 const morgan = require('morgan');
 const express = require('express');
+const bodyParser = require('body-parser');
+const rfs = require('rotating-file-stream');
 
 // import custom modules
 const projectRoot = require('./assets/utils/getProjectRoot');
@@ -17,6 +18,21 @@ var accessLogStream = rfs.createStream('access.log', {
     path: path.join(projectRoot.getDir(), 'log')
 });
 app.use(morgan('combined', { stream: accessLogStream }))
+app.use(morgan('dev'));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', );
+
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', process.env.ALLOWED_METHODS);
+        return res.status(200).json({});
+    }
+    next();
+});
 
 // Loading all available routes
 const routes = fs.readdirSync(path.join(__dirname, 'api/routes'));
@@ -29,8 +45,8 @@ routes.forEach(route => {
 
 // handle 404 error
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status(404);
+    const err = new Error('Route not found');
+    err.status = 404;
     next(err);
 });
 
