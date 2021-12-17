@@ -6,10 +6,13 @@ const express = require('express');
 const app = express();
 
 // Loading all available routes
-const productRoutes = require('./api/routes/products');
-
-// Loading all available middlewares
-app.use('/products', productRoutes);
+const routes = fs.readdirSync(path.join(__dirname, 'api/routes'));
+routes.forEach(route => {
+    const routePath = path.join(__dirname, 'api/routes', route);
+    const routeName = route.replace('.js', '');
+    const routeHandler = require(routePath);
+    app.use(`/${routeName}`, routeHandler);
+});
 
 // Export the api handler
 module.exports = app;
