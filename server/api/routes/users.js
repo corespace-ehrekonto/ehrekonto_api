@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 
 const router = express.Router();
 
+// Import custom modules
+const errorHandlerLogger = require('../../assets/logging/errorHandler');
+
 console.log('Ehrekonto: users route loaded');
 
 // Import models
@@ -56,6 +59,7 @@ router.get('/:userID', (req, res, next) => {
             res.status(200).json(doc);
         }).catch(err => {
             console.log(err);
+            errorHandlerLogger.log(err, req, res, next);
             res.status(500).json({ error: err })
         });
 });
@@ -68,6 +72,7 @@ router.get('/user/:username', (req, res, next) => {
             res.status(200).json(doc);
         }).catch(err => {
             console.log(err);
+            errorHandlerLogger.log(err, req, res, next);
             res.status(500).json({ error: err });
         });
 });
