@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const dotenv = require('dotenv');
 const morgan = require('morgan');
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const rfs = require('rotating-file-stream');
 
@@ -11,6 +13,7 @@ const errorHandlerLogger = require('./assets/logging/errorHandler');
 
 // Initialize the api handler
 const app = express();
+dotenv.config();
 
 // Create loggin stream for the api
 var accessLogStream = rfs.createStream('access.log', {
@@ -44,6 +47,10 @@ routes.forEach(route => {
 });
 
 // Create mongoose db connection
+const mongoURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Handle 404 error
 app.use((req, res, next) => {
     const err = new Error('Route not found');
     err.status = 404;
