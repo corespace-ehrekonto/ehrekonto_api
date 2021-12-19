@@ -1,51 +1,74 @@
 const express = require('express');
-const res = require('express/lib/response');
+const mongoose = require('mongoose');
+
 const router = express.Router();
 
 console.log('Ehrekonto: products route loaded');
 
-// create the root product route
-router.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'Handling GET requests to /products'
-    });
+// Import models
+const Product = require('../models/product');
+
+// Create the root product route
+router.get("/", (req, res, next) => {
+    Product.find()
+      .exec()
+      .then(docs => {
+        console.log(docs);
+        res.status(200).json(docs);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
 });
 
-// create the product route
-router.post('/', (req, res, next) => {
-    const product = {
-        name: req.body.name,
-        price: req.body.price
-    };
-    res.status(201).json({
-        message: 'Handling POST requests to /products',
-        data: product
+// Create the product route
+router.post("/", (req, res, next) => {
+    const product = new Product({
+      _id: new mongoose.Types.ObjectId(),
+      name: req.body.name,
+      price: req.body.price
     });
+
+    product.save()
+      .then(result => {
+        console.log(result);
+        res.status(201).json({
+          message: "Handling POST requests to /products",
+          createdProduct: result
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
 });
 
-// create a get specific product route
+// Create a get specific product route
 router.get('/:productId', (req, res, next) => {
     const id = req.params.productId;
-    if (id === 'test') {
-        res.status(200).json({
-            message: 'Testing route for product id',
-            id: id
+    Product.findById(id).exec()
+        .then(doc => {
+            console.log(doc);
+            res.status(200).json(doc);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err })
         });
-    } else {
-        res.status(200).json({
-            message: "Handler doesn't support this product id",
-        });
-    }
 });
 
-// create update product route
+// Create update product route
 router.patch('/:productId', (req, res, next) => {
     res.status(200).json({
         message: 'Updated product'
     });
 });
 
-// create delete product route
+// Create delete product route
 router.delete('/:productId', (req, res, next) => {
     res.status(200).json({
         message: 'Removed product'
