@@ -63,9 +63,9 @@ router.get('/:productId', (req, res, next) => {
 
 // Create update product route
 router.patch('/:productId', (req, res, next) => {
-    res.status(200).json({
-        message: 'Updated product'
-    });
+  res.status(200).json({
+      message: 'Updated product'
+  });
 });
 
 // Create delete product route
