@@ -5,14 +5,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const rfs = require('rotating-file-stream');
 
-// import custom modules
+// Import custom modules
 const projectRoot = require('./assets/utils/getProjectRoot');
 const errorHandlerLogger = require('./assets/logging/errorHandler');
 
 // Initialize the api handler
 const app = express();
 
-// create loggin stream for the api
+// Create loggin stream for the api
 var accessLogStream = rfs.createStream('access.log', {
     interval: '1d', // rotate daily
     path: path.join(projectRoot.getDir(), 'log')
@@ -43,7 +43,7 @@ routes.forEach(route => {
     app.use(`/${routeName}`, routeHandler);
 });
 
-// handle 404 error
+// Create mongoose db connection
 app.use((req, res, next) => {
     const err = new Error('Route not found');
     err.status = 404;
