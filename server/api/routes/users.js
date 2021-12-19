@@ -48,4 +48,28 @@ router.post("/", (req, res, next) => {
       });
 });
 
+router.get('/:userID', (req, res, next) => {
+    const id = req.params.userID;
+    User.findById(id).exec()
+        .then(doc => {
+            console.log(doc);
+            res.status(200).json(doc);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err })
+        });
+});
+
+router.get('/user/:username', (req, res, next) => {
+    const username = req.params.username;
+    User.find({username: username}).exec()
+        .then(doc => {
+            console.log(doc);
+            res.status(200).json(doc);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err });
+        });
+});
+
 module.exports = router;
