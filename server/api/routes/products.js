@@ -50,15 +50,15 @@ router.post("/", (req, res, next) => {
 
 // Create a get specific product route
 router.get('/:productId', (req, res, next) => {
-    const id = req.params.productId;
-    Product.findById(id).exec()
-        .then(doc => {
-            console.log(doc);
-            res.status(200).json(doc);
-        }).catch(err => {
-            console.log(err);
-            res.status(500).json({ error: err })
-        });
+  const id = req.params.productId;
+  Product.findById(id).exec()
+      .then(doc => {
+          console.log(doc);
+          res.status(200).json(doc);
+      }).catch(err => {
+          console.log(err);
+          res.status(500).json({ error: err })
+      });
 });
 
 // Create update product route
