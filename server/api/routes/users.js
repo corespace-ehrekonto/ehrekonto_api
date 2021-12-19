@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const rateLimit = require('express-rate-limit');
 
 const router = express.Router();
 
@@ -12,8 +13,19 @@ console.log('Ehrekonto: users route loaded');
 // Import models
 const User = require('../models/users');
 
+// Create rate limit
+const accountCreationLimit = rateLimit({
+  windowMs: 60*60*1000, max: 5,
+  message: "Account creation limit exceeded"
+});
+
+const requestLimit = rateLimit({
+  windowMs: 5*60*1000, max: 120,
+  message: "Data request limit exceeded"
+});
+
 // Get all users currently in the database
-router.get("/", (req, res, next) => {
+router.get("/", requestLimit, (req, res, next) => {
     User.find()
       .exec()
       .then(docs => {
@@ -29,7 +41,7 @@ router.get("/", (req, res, next) => {
 });
 
 // Create a new user using the schema
-router.post("/", (req, res, next) => {
+router.post("/", accountCreationLimit, (req, res, next) => {
   const password = passCrypt.encrypt(req.body.password);
   const user = new User({
       _id: new mongoose.Types.ObjectId(),
@@ -55,7 +67,7 @@ router.post("/", (req, res, next) => {
 });
 
 // Get user via id
-router.get('/:userID', (req, res, next) => {
+router.get('/:userID', requestLimit, (req, res, next) => {
     const id = req.params.userID;
     User.findById(id).exec()
         .then(doc => {
@@ -69,7 +81,7 @@ router.get('/:userID', (req, res, next) => {
 });
 
 // Get user via username
-router.get('/user/:username', (req, res, next) => {
+router.get('/user/:username', requestLimit, (req, res, next) => {
     const username = req.params.username;
     User.find({username: username}).exec()
         .then(doc => {
