@@ -10,18 +10,18 @@ const Product = require('../models/product');
 
 // Create the root product route
 router.get("/", (req, res, next) => {
-    Product.find()
-      .exec()
-      .then(docs => {
-        console.log(docs);
-        res.status(200).json(docs);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
+  Product.find()
+    .exec()
+    .then(docs => {
+      console.log(docs);
+      res.status(200).json(docs);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
       });
+    });
 });
 
 // Create the product route
