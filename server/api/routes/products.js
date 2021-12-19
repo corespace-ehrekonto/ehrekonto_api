@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 
 const router = express.Router();
@@ -11,8 +12,19 @@ console.log('Ehrekonto: products route loaded');
 // Import models
 const Product = require('../models/product');
 
+// Create rate limit
+const createProductLimit = rateLimit({
+  windowMs: 60*60*1000, max: 100,
+  message: "Product creation limit exceeded"
+});
+
+const requestProductsLimit = rateLimit({
+  windowMs: 5*60*1000, max: 120,
+  message: "Product request limit exceeded"
+});
+
 // Create the root product route
-router.get("/", (req, res, next) => {
+router.get("/", requestProductsLimit, (req, res, next) => {
   Product.find()
     .exec()
     .then(docs => {
@@ -28,7 +40,7 @@ router.get("/", (req, res, next) => {
 });
 
 // Create the product route
-router.post("/", (req, res, next) => {
+router.post("/", createProductLimit, (req, res, next) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -52,7 +64,7 @@ router.post("/", (req, res, next) => {
 });
 
 // Create a get specific product route
-router.get('/:productId', (req, res, next) => {
+router.get('/:productId', requestProductsLimit, (req, res, next) => {
   const id = req.params.productId;
   Product.findById(id).exec()
       .then(doc => {
@@ -65,7 +77,7 @@ router.get('/:productId', (req, res, next) => {
 });
 
 // Create update product route
-router.patch('/:productId', (req, res, next) => {
+router.patch('/:productId', createProductLimit, (req, res, next) => {
   const id = req.params.productId;
   const reqBody = req.body;
   const updateOps = {};
@@ -88,7 +100,7 @@ router.patch('/:productId', (req, res, next) => {
 });
 
 // Create delete product route
-router.delete('/:productId', (req, res, next) => {
+router.delete('/:productId', createProductLimit, (req, res, next) => {
   const id = req.params.productId;
   Product.remove({ _id: id }).exec().then(result => {
       res.status(200).json(result);
