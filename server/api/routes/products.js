@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 
 const router = express.Router();
 
+// Import custom modules
+const errorHandlerLogger = require('../../assets/logging/errorHandler');
+
 console.log('Ehrekonto: products route loaded');
 
 // Import models
