@@ -1,3 +1,5 @@
+[![CodeQL](https://github.com/AsP3X/ehrekonto_api/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/AsP3X/ehrekonto_api/actions/workflows/codeql-analysis.yml)
+
 Please make sure to add following lines to your .env file
 
 ```dotenv
@@ -10,4 +12,14 @@ Please make sure to add following lines to your .env file
     MONGO_PASSWORD=
     MONGODB_ADMIN_USERNAME=
     MONGODB_ADMIN_PASSWORD=
+```
+
+<h1>License</h1>
+
+```license
+####################################################################
+## ZOUPA - (ZombyMediaIC open source usage protection agreement)  ##
+## License as of: 19.12.2021 12:05 | #202112191205                ##
+## Niklas Vorberg (AsP3X)                                         ##
+####################################################################
 ```
