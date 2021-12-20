@@ -20,14 +20,16 @@ const protectConfig = fs.readFileSync(path.resolve(__dirname, '../configs/protec
 
 // Create rate limit
 const accountCreationLimit = rateLimit({
-  windowMs: 60*60*1000, max: 5,
+  windowMs: 60 * 60 * 1000, max: 5,
   message: "Account creation limit exceeded"
 });
 
 const requestLimit = rateLimit({
-  windowMs: 5*60*1000, max: 120,
+  windowMs: 5 * 60 * 1000, max: 120,
   message: "Data request limit exceeded"
 });
+
+console.log('Ehrekonto: users route loaded');
 
 // Get all users currently in the database
 router.get("/", requestLimit, (req, res, next) => {
@@ -48,10 +50,10 @@ router.get("/", requestLimit, (req, res, next) => {
 router.post("/", accountCreationLimit, (req, res, next) => {
   const password = passCrypt.encrypt(req.body.password);
   const user = new User({
-      _id: new mongoose.Types.ObjectId(),
-      username: req.body.username,
-      password: password,
-      email: req.body.email
+    _id: new mongoose.Types.ObjectId(),
+    username: req.body.username,
+    password: password,
+    email: req.body.email
   });
 
   user.save()
@@ -70,9 +72,9 @@ router.post("/", accountCreationLimit, (req, res, next) => {
     });
 });
 
-route.get('/checkIfExists/:userID', (req, res, next) => {
+// route.get('/checkIfExists/:userId', (req, res, next) => {
 
-});
+// });
 
 // Get user via id
 router.get('/:userId', requestLimit, (req, res, next) => {
@@ -132,15 +134,15 @@ router.patch('/:userId', requestLimit, (req, res, next) => {
 // Get user via username
 router.get('/user/:username', requestLimit, (req, res, next) => {
   const username = req.params.username;
-  User.find({username: username}).exec()
-      .then(doc => {
-          console.log(doc);
-          res.status(200).json(doc);
-      }).catch(err => {
-          console.log(err);
-          errorHandlerLogger.log(err, req, res, next);
-          res.status(500).json({ error: err });
-      });
+  User.find({ username: username }).exec()
+    .then(doc => {
+      console.log(doc);
+      res.status(200).json(doc);
+    }).catch(err => {
+      console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
+      res.status(500).json({ error: err });
+    });
 });
 
 module.exports = router;
