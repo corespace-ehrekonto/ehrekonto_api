@@ -9,8 +9,6 @@ const router = express.Router();
 const errorHandlerLogger = require('../../assets/logging/errorHandler');
 const passCrypt = require('../../assets/login/passCrypt');
 
-console.log('Ehrekonto: users route loaded');
-
 // Import models
 const User = require('../models/users');
 
