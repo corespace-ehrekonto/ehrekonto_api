@@ -1,25 +1,25 @@
 {
   "recommendations": [
-    "msjsdiag.debugger-for-chrome",
-    "jannisx11.batch-rename-extension",
     "coenraads.bracket-pair-colorizer-2",
-    "adpyke.codesnap",
+    "jannisx11.batch-rename-extension",
+    "monokai.theme-monokai-pro-vscode",
+    "piyushvscode.nodejs-snippets",
     "royaction.color-manager",
     "dbaeumer.vscode-eslint",
-    "exelord.git-commits",
-    "github.copilot",
-    "zainchen.json",
-    "piyushvscode.nodejs-snippets",
     "mohsen1.prettify-json",
-    "monokai.theme-monokai-pro-vscode"
+    "exelord.git-commits",
+    "adpyke.codesnap",
+    "github.copilot",
+    "zainchen.json"
   ],
   "unwantedRecommendations": [
     "ms-ceintl.vscode-language-pack-de",
-    "ms-python.vscode-pylance",
-    "ms-python.python",
     "vscode-icons-team.vscode-icons",
+    "sidthesloth.html5-boilerplate",
+    "msjsdiag.debugger-for-chrome",
+    "ms-python.vscode-pylance",
     "abusaidm.html-snippets",
     "ecmel.vscode-html-css",
-    "sidthesloth.html5-boilerplate"
+    "ms-python.python",
   ]
 }
