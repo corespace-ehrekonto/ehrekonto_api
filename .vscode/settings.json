@@ -1,0 +1,49 @@
+{
+  "editor.autoIndent": "brackets",
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingQuotes": "always",
+  "editor.autoSurround": "languageDefined",
+  "editor.formatOnSave": true,
+  "editor.formatOnType": false,
+  "editor.formatOnPaste": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.wordWrap": "off",
+  "editor.codeLens": true,
+  "editor.codeLensFontSize": 0,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "line",
+  "editor.cursorSmoothCaretAnimation": true,
+  "editor.detectIndentation": false,
+  "editor.comments.insertSpace": true,
+  "editor.tabSize": 2,
+  "github.copilot.inlineSuggest.enable": true,
+  "[javascript]": {
+    "editor.autoClosingBrackets": "always",
+    "editor.inlineSuggest.enabled": true,
+    "editor.largeFileOptimizations": false,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2
+  },
+  "[json]": {
+    "editor.autoClosingBrackets": "always",
+    "editor.inlineSuggest.enabled": true,
+    "editor.largeFileOptimizations": false,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2
+  },
+  "[.env]": {
+    "editor.autoClosingBrackets": "never",
+    "editor.inlineSuggest.enabled": false,
+    "editor.largeFileOptimizations": false,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2
+  },
+  "[markdown]": {
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": false
+  },
+  "[plaintext]": {
+    "editor.unicodeHighlight.ambiguousCharacters": false
+  }
+}

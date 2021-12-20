@@ -1,0 +1,25 @@
+{
+  "recommendations": [
+    "msjsdiag.debugger-for-chrome",
+    "jannisx11.batch-rename-extension",
+    "coenraads.bracket-pair-colorizer-2",
+    "adpyke.codesnap",
+    "royaction.color-manager",
+    "dbaeumer.vscode-eslint",
+    "exelord.git-commits",
+    "github.copilot",
+    "zainchen.json",
+    "piyushvscode.nodejs-snippets",
+    "mohsen1.prettify-json",
+    "monokai.theme-monokai-pro-vscode"
+  ],
+  "unwantedRecommendations": [
+    "ms-ceintl.vscode-language-pack-de",
+    "ms-python.vscode-pylance",
+    "ms-python.python",
+    "vscode-icons-team.vscode-icons",
+    "abusaidm.html-snippets",
+    "ecmel.vscode-html-css",
+    "sidthesloth.html5-boilerplate"
+  ]
+}
