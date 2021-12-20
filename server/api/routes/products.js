@@ -1,6 +1,6 @@
 const express = require('express');
-const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
+const rateLimit = require('express-rate-limit');
 
 const router = express.Router();
 
@@ -28,11 +28,11 @@ router.get("/", requestProductsLimit, (req, res, next) => {
   Product.find()
     .exec()
     .then(docs => {
-      console.log(docs);
       res.status(200).json(docs);
     })
     .catch(err => {
       console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
       res.status(500).json({
         error: err
       });
@@ -57,6 +57,7 @@ router.post("/", createProductLimit, (req, res, next) => {
     })
     .catch(err => {
       console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
       res.status(500).json({
         error: err
       });
@@ -72,6 +73,7 @@ router.get('/:productId', requestProductsLimit, (req, res, next) => {
           res.status(200).json(doc);
       }).catch(err => {
           console.log(err);
+          errorHandlerLogger.log(err, req, res, next);
           res.status(500).json({ error: err })
       });
 });
@@ -93,6 +95,7 @@ router.patch('/:productId', createProductLimit, (req, res, next) => {
     })
     .catch(err => {
       console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
       res.status(500).json({
         error: err
       });
