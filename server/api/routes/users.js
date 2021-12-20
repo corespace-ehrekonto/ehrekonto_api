@@ -29,7 +29,6 @@ router.get("/", requestLimit, (req, res, next) => {
     User.find()
       .exec()
       .then(docs => {
-        console.log(docs);
         res.status(200).json(docs);
       })
       .catch(err => {
