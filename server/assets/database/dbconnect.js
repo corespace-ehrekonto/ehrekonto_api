@@ -9,7 +9,7 @@ function handleError(err) {
 }
 
 // Create mongoose db connection
-dbc.connect = () => {
+dbc.mongo_connect = () => {
   const mongoURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 
   try {

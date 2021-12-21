@@ -10,6 +10,7 @@ const rfs = require('rotating-file-stream');
 // Import custom modules
 const projectRoot = require('./assets/utils/getProjectRoot');
 const errorHandlerLogger = require('./assets/logging/errorHandler');
+const dbc = require('./assets/database/dbconnect');
 
 // Initialize the api handler
 const app = express();
@@ -28,8 +29,8 @@ app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', );
-  
+  res.header('Access-Control-Allow-Headers',);
+
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', process.env.ALLOWED_METHODS);
     return res.status(200).json({});
@@ -46,9 +47,8 @@ routes.forEach(route => {
   app.use(`/${routeName}`, routeHandler);
 });
 
-// Create mongoose db connection
-const mongoURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+// // Create mongoose db connection
+dbc.mongo_connect();
 
 // Handle 404 error
 app.use((req, res, next) => {
