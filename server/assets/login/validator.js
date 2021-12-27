@@ -62,4 +62,25 @@ validator.passwordStrength = (password) => {
   return passwordStrength;
 }
 
+validator.validateEmail = (email) => {
+  const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+  const allowedTopLevelDomains = ['de', 'com', 'net', 'org', 'edu'];
+
+  if (email.length === 0 || email.length < 5) {
+    return false;
+  }
+
+  if (!regex.test(email)) {
+    return false;
+  }
+
+  // check if the email is from a top level domain that is allowed
+  const topLevelDomain = email.split('@')[1].split('.')[1];
+  if (allowedTopLevelDomains.indexOf(topLevelDomain) === -1) {
+    return false;
+  }
+
+  return true;
+}
+
 module.exports = validator;
