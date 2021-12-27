@@ -101,7 +101,7 @@ router.post('/', createOrderLimit, (req, res, next) => {
 });
 
 // create a get specific order route
-router.get('/:orderId', (req, res, next) => {
+router.get('/:orderId', listOrderLimit, (req, res, next) => {
   Order.findById(req.params.orderId).exec()
     .then(order => {
       if (!order) {
