@@ -26,7 +26,7 @@ const listOrderLimit = rateLimit({
 console.log('Ehrekonto: orders route loaded');
 
 // create the root order route
-router.get('/', (req, res, next) => {
+router.get('/', listOrderLimit, (req, res, next) => {
   Order.find().select('product quantity _id')
     .exec()
     .then(docs => {
@@ -101,7 +101,7 @@ router.post('/', createOrderLimit, (req, res, next) => {
 });
 
 // create a get specific order route
-router.get('/:orderId', (req, res, next) => {
+router.get('/:orderId', listOrderLimit, (req, res, next) => {
   Order.findById(req.params.orderId).exec()
     .then(order => {
       if (!order) {
@@ -125,7 +125,7 @@ router.get('/:orderId', (req, res, next) => {
 });
 
 // create delete order route
-router.delete('/:orderId', (req, res, next) => {
+router.delete('/:orderId', listOrderLimit, (req, res, next) => {
   Order.remove({ _id: req.params.orderId }).exec()
     .then(result => {
       res.status(200).json({

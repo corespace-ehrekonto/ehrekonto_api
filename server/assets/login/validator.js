@@ -63,7 +63,7 @@ validator.passwordStrength = (password) => {
 }
 
 validator.validateEmail = (email) => {
-  const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+  const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
   const allowedTopLevelDomains = ['de', 'com', 'net', 'org', 'edu'];
 
   if (email.length === 0 || email.length < 5) {
