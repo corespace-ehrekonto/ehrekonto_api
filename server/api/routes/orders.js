@@ -125,7 +125,7 @@ router.get('/:orderId', listOrderLimit, (req, res, next) => {
 });
 
 // create delete order route
-router.delete('/:orderId', (req, res, next) => {
+router.delete('/:orderId', listOrderLimit, (req, res, next) => {
   Order.remove({ _id: req.params.orderId }).exec()
     .then(result => {
       res.status(200).json({
