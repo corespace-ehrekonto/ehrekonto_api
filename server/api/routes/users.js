@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Import custom modules
 const errorHandlerLogger = require('../../assets/logging/errorHandler');
-const validatePassword = require('../../assets/login/validatePassword');
+const validator = require('../../assets/login/validator');
 const passCrypt = require('../../assets/login/passCrypt');
 
 // Import models
@@ -47,9 +47,21 @@ router.get("/", requestLimit, (req, res, next) => {
 
 // Create a new user using the schema
 router.post("/", accountCreationLimit, (req, res, next) => {
-  if (validatePassword.passwordStrength(req.body.password) < 20) {
+  let validation = {
+    password: false,
+    email: false
+  };
+  let issue = '';
+
+  if (validator.passwordStrength(req.body.password) >= 20) { validation.password = true } else { issue = 'Password strength is too low' };
+  if (validator.validateEmail(req.body.email)) { validation.email = true } else { issue = 'Email is invalid' };
+
+  console.log(validation);
+
+  if (!validation.password || !validation.email) {
     res.status(400).json({
-      message: "Password is not strong enough"
+      message: 'Validation failed',
+      issue: issue
     });
   } else {
     const password = passCrypt.encrypt(req.body.password);
@@ -64,7 +76,7 @@ router.post("/", accountCreationLimit, (req, res, next) => {
       .then(result => {
         console.log(result);
         res.status(201).json({
-          message: "Handling POST requests to /products",
+          message: "Handling POST requests to /users",
           createdProduct: result
         });
       })
