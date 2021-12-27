@@ -83,4 +83,20 @@ validator.validateEmail = (email) => {
   return true;
 }
 
+validator.validateUsername = (username) => {
+  const forbiddenCharacters = [
+    '<', '>', ':', '"', '/', '\\', '|', '?', '*', '.', ' ', '\t', '\n', '\r', '\f', '\v', '\0',
+    '{', '}', '[', ']', ';', '=', '+', '&', '%', '$', '#', '@', '!', '~', '`', '^', '\'', ','];
+
+  // check if the username contains any forbiddenCharacter
+  for (let i = 0; i < forbiddenCharacters.length; i++) {
+    if (username.includes(forbiddenCharacters[i])) {
+      console.log('Forbidden character detected: ' + forbiddenCharacters[i]);
+      return false;
+    }
+  }
+
+  return true;
+}
+
 module.exports = validator;
