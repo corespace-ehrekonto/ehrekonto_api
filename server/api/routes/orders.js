@@ -26,7 +26,7 @@ const listOrderLimit = rateLimit({
 console.log('Ehrekonto: orders route loaded');
 
 // create the root order route
-router.get('/', (req, res, next) => {
+router.get('/', listOrderLimit, (req, res, next) => {
   Order.find().select('product quantity _id')
     .exec()
     .then(docs => {
