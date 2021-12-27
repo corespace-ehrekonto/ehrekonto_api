@@ -146,4 +146,17 @@ router.get('/user/:username', requestLimit, (req, res, next) => {
     });
 });
 
+router.delete('/:userId', requestLimit, (req, res, next) => {
+  const id = req.params.userId;
+  User.findByIdAndRemove(id).exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json(result);
+    }).catch(err => {
+      console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
+      res.status(500).json({ error: err })
+    });
+});
+
 module.exports = router;
