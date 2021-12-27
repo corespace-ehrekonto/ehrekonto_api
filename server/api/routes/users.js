@@ -7,6 +7,7 @@ const router = express.Router();
 
 // Import custom modules
 const errorHandlerLogger = require('../../assets/logging/errorHandler');
+const validator = require('../../assets/login/validator');
 const passCrypt = require('../../assets/login/passCrypt');
 
 // Import models
@@ -46,33 +47,47 @@ router.get("/", requestLimit, (req, res, next) => {
 
 // Create a new user using the schema
 router.post("/", accountCreationLimit, (req, res, next) => {
-  const password = passCrypt.encrypt(req.body.password);
-  const user = new User({
-    _id: new mongoose.Types.ObjectId(),
-    username: req.body.username,
-    password: password,
-    email: req.body.email
-  });
+  let validation = {
+    password: false,
+    email: false
+  };
+  let issue = '';
 
-  user.save()
-    .then(result => {
-      console.log(result);
-      res.status(201).json({
-        message: "Handling POST requests to /products",
-        createdProduct: result
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
+  if (validator.passwordStrength(req.body.password) >= 20) { validation.password = true } else { issue = 'Password strength is too low' };
+  if (validator.validateEmail(req.body.email)) { validation.email = true } else { issue = 'Email is invalid' };
+
+  console.log(validation);
+
+  if (!validation.password || !validation.email) {
+    res.status(400).json({
+      message: 'Validation failed',
+      issue: issue
     });
+  } else {
+    const password = passCrypt.encrypt(req.body.password);
+    const user = new User({
+      _id: new mongoose.Types.ObjectId(),
+      username: req.body.username,
+      password: password,
+      email: req.body.email
+    });
+
+    user.save()
+      .then(result => {
+        console.log(result);
+        res.status(201).json({
+          message: "Handling POST requests to /users",
+          createdProduct: result
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+  }
 });
-
-// route.get('/checkIfExists/:userId', (req, res, next) => {
-
-// });
 
 // Get user via id
 router.get('/:userId', requestLimit, (req, res, next) => {
@@ -140,6 +155,19 @@ router.get('/user/:username', requestLimit, (req, res, next) => {
       console.log(err);
       errorHandlerLogger.log(err, req, res, next);
       res.status(500).json({ error: err });
+    });
+});
+
+router.delete('/:userId', requestLimit, (req, res, next) => {
+  const id = req.params.userId;
+  User.findByIdAndRemove(id).exec()
+    .then(result => {
+      console.log(result);
+      res.status(200).json(result);
+    }).catch(err => {
+      console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
+      res.status(500).json({ error: err })
     });
 });
 
