@@ -7,6 +7,7 @@ const router = express.Router();
 
 // Import custom modules
 const errorHandlerLogger = require('../../assets/logging/errorHandler');
+const validatePassword = require('../../assets/login/validatePassword');
 const passCrypt = require('../../assets/login/passCrypt');
 
 // Import models
@@ -46,33 +47,35 @@ router.get("/", requestLimit, (req, res, next) => {
 
 // Create a new user using the schema
 router.post("/", accountCreationLimit, (req, res, next) => {
-  const password = passCrypt.encrypt(req.body.password);
-  const user = new User({
-    _id: new mongoose.Types.ObjectId(),
-    username: req.body.username,
-    password: password,
-    email: req.body.email
-  });
-
-  user.save()
-    .then(result => {
-      console.log(result);
-      res.status(201).json({
-        message: "Handling POST requests to /products",
-        createdProduct: result
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
+  if (validatePassword.passwordStrength(req.body.password) < 20) {
+    res.status(400).json({
+      message: "Password is not strong enough"
     });
+  } else {
+    const password = passCrypt.encrypt(req.body.password);
+    const user = new User({
+      _id: new mongoose.Types.ObjectId(),
+      username: req.body.username,
+      password: password,
+      email: req.body.email
+    });
+
+    user.save()
+      .then(result => {
+        console.log(result);
+        res.status(201).json({
+          message: "Handling POST requests to /products",
+          createdProduct: result
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+  }
 });
-
-// route.get('/checkIfExists/:userId', (req, res, next) => {
-
-// });
 
 // Get user via id
 router.get('/:userId', requestLimit, (req, res, next) => {
