@@ -6,6 +6,13 @@ const projectRoot = require('../utils/getProjectRoot');
 
 const errorHandlerLogger = {};
 
+/**
+ * Logging error to the error.log file
+ * @param {Array} error 
+ * @param {Array} req 
+ * @param {Array} res 
+ * @param {Array} next 
+ */
 errorHandlerLogger.log = (error, req, res, next) => {
   const rootDir = projectRoot.getDir();
 
@@ -18,6 +25,10 @@ errorHandlerLogger.log = (error, req, res, next) => {
   accessLogStream.write(`${new Date()} - ${req.method} ${req.originalUrl} - ${error.message} - ${error.status || 500}\n`);
 };
 
+/**
+ * Logging error to the error.log file
+ * @param {Array} error 
+ */
 errorHandlerLogger.error = (error) => {
   const rootDir = projectRoot.getDir();
 
