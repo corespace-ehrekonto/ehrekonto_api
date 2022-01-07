@@ -16,6 +16,11 @@ const isCommonPassword = (password) => {
   return false;
 }
 
+/**
+ * Checking if the password length is matching the given security standards
+ * @param {String} password 
+ * @returns 
+ */
 validator.passwordStrength = (password) => {
   let passwordStrength = 0;
 
@@ -62,6 +67,13 @@ validator.passwordStrength = (password) => {
   return passwordStrength;
 }
 
+/**
+ * Validator checking the length of the email address
+ * Checking if the email domain ending is allowed
+ * checking if the email is valid
+ * @param {String} email 
+ * @returns 
+ */
 validator.validateEmail = (email) => {
   const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
   const allowedTopLevelDomains = ['de', 'com', 'net', 'org', 'edu'];
@@ -83,6 +95,11 @@ validator.validateEmail = (email) => {
   return true;
 }
 
+/**
+ * Checking if the username contains any invalid characters
+ * @param {String} username 
+ * @returns 
+ */
 validator.validateUsername = (username) => {
   const forbiddenCharacters = [
     '<', '>', ':', '"', '/', '\\', '|', '?', '*', '.', ' ', '\t', '\n', '\r', '\f', '\v', '\0',
