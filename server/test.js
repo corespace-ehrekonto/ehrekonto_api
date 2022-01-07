@@ -4,4 +4,6 @@ const validator = require('./assets/login/validator');
 
 // console.log(validator.passwordStrength(password));
 
-console.log(validator.validateEmail('test@corespace.de'));
+// console.log(validator.validateEmail('test@corespace.de'));
+
+console.log(validator.validateUsername('/(/)(/)&(&)'));

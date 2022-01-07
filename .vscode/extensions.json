@@ -2,7 +2,6 @@
   "recommendations": [
     "coenraads.bracket-pair-colorizer-2",
     "jannisx11.batch-rename-extension",
-    "monokai.theme-monokai-pro-vscode",
     "piyushvscode.nodejs-snippets",
     "royaction.color-manager",
     "dbaeumer.vscode-eslint",

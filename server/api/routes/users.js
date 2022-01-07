@@ -49,16 +49,18 @@ router.get("/", requestLimit, (req, res, next) => {
 router.post("/", accountCreationLimit, (req, res, next) => {
   let validation = {
     password: false,
-    email: false
+    email: false,
+    username: false
   };
   let issue = '';
 
   if (validator.passwordStrength(req.body.password) >= 20) { validation.password = true } else { issue = 'Password strength is too low' };
   if (validator.validateEmail(req.body.email)) { validation.email = true } else { issue = 'Email is invalid' };
+  if (validator.validateUsername(req.body.username)) { validation.username = true } else { issue = 'Username is invalid' };
 
   console.log(validation);
 
-  if (!validation.password || !validation.email) {
+  if (!validation.password || !validation.email || !validation.username) {
     res.status(400).json({
       message: 'Validation failed',
       issue: issue
