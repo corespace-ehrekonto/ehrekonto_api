@@ -30,7 +30,11 @@
       "joelcrosby.one-dark-darker",
       "mohsen1.prettify-json",
       "netcorext.uuid-generator",
-      "vscode-icons-team.vscode-icons"
-    ]
+      "vscode-icons-team.vscode-icons",
+      "jeff-hykin.better-dockerfile-syntax",
+      "github.copilot"
+    ],
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": true
   }
 }
