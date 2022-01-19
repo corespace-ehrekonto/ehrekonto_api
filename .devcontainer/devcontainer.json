@@ -1,0 +1,36 @@
+{
+  "name": "Ehrekonto Api",
+  "dockerFile": "Dockerfile",
+  "appPort": [
+    3000
+  ],
+  "runArgs": [
+    "-u",
+    "node"
+  ],
+  "settings": {
+    "workbench.colorTheme": "One Dark Darker",
+    "terminal.integrated.profiles.linux": {
+      "bash": {
+        "path": "bash",
+        "icon": "terminal-bash"
+      },
+      "zsh": {
+        "path": "zsh"
+      }
+    },
+    "postCreateCommand": "npm install",
+    "extensions": [
+      "jannisx11.batch-rename-extension",
+      "coenraads.bracket-pair-colorizer-2",
+      "adpyke.codesnap",
+      "royaction.color-manager",
+      "abusaidm.html-snippets",
+      "piyushvscode.nodejs-snippets",
+      "joelcrosby.one-dark-darker",
+      "mohsen1.prettify-json",
+      "netcorext.uuid-generator",
+      "vscode-icons-team.vscode-icons"
+    ]
+  }
+}
