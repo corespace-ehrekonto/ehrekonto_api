@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updateAt: { type: Date, required: false },
-  img: { data: Buffer, contentType: String, required: false },
+  img: { type: String, required: false },
 });
 
 module.exports = mongoose.model('User', userSchema);

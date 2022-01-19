@@ -28,13 +28,17 @@ const requestLimit = rateLimit({
   message: "Data request limit exceeded"
 });
 
-console.log('Ehrekonto: users route loaded');
+console.log('Ehrekonto: Users route loaded');
 
 // Get all users currently in the database
 router.get("/", requestLimit, (req, res, next) => {
   User.find()
     .exec()
     .then(docs => {
+      // remove the password field from docs
+      docs.forEach(doc => {
+        doc.password = undefined;
+      });
       res.status(200).json(docs);
     })
     .catch(err => {
@@ -42,6 +46,36 @@ router.get("/", requestLimit, (req, res, next) => {
       res.status(500).json({
         error: err
       });
+    });
+});
+
+// Get user via id
+router.get('/:userId', requestLimit, (req, res, next) => {
+  const id = req.params.userId;
+  User.findById(id).exec()
+    .then(doc => {
+      doc.password = undefined;
+      console.log(doc);
+      res.status(200).json(doc);
+    }).catch(err => {
+      console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
+      res.status(500).json({ error: err })
+    });
+});
+
+// Get user via username
+router.get('/user/:username', requestLimit, (req, res, next) => {
+  const username = req.params.username;
+  User.find({ username: username }).exec()
+    .then(doc => {
+      doc.password = undefined;
+      console.log(doc);
+      res.status(200).json(doc);
+    }).catch(err => {
+      console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
+      res.status(500).json({ error: err });
     });
 });
 
@@ -91,20 +125,6 @@ router.post("/", accountCreationLimit, (req, res, next) => {
   }
 });
 
-// Get user via id
-router.get('/:userId', requestLimit, (req, res, next) => {
-  const id = req.params.userId;
-  User.findById(id).exec()
-    .then(doc => {
-      console.log(doc);
-      res.status(200).json(doc);
-    }).catch(err => {
-      console.log(err);
-      errorHandlerLogger.log(err, req, res, next);
-      res.status(500).json({ error: err })
-    });
-});
-
 // Update user via id and given fields
 router.patch('/:userId', requestLimit, (req, res, next) => {
   const id = req.params.userId;
@@ -143,20 +163,6 @@ router.patch('/:userId', requestLimit, (req, res, next) => {
       console.log(err);
       errorHandlerLogger.log(err, req, res, next);
       res.status(500).json({ error: err })
-    });
-});
-
-// Get user via username
-router.get('/user/:username', requestLimit, (req, res, next) => {
-  const username = req.params.username;
-  User.find({ username: username }).exec()
-    .then(doc => {
-      console.log(doc);
-      res.status(200).json(doc);
-    }).catch(err => {
-      console.log(err);
-      errorHandlerLogger.log(err, req, res, next);
-      res.status(500).json({ error: err });
     });
 });
 
