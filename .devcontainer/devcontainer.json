@@ -20,21 +20,21 @@
       }
     },
     "postCreateCommand": "npm install",
-    "extensions": [
-      "jannisx11.batch-rename-extension",
-      "coenraads.bracket-pair-colorizer-2",
-      "adpyke.codesnap",
-      "royaction.color-manager",
-      "abusaidm.html-snippets",
-      "piyushvscode.nodejs-snippets",
-      "joelcrosby.one-dark-darker",
-      "mohsen1.prettify-json",
-      "netcorext.uuid-generator",
-      "vscode-icons-team.vscode-icons",
-      "jeff-hykin.better-dockerfile-syntax",
-      "github.copilot"
-    ],
     "editor.cursorBlinking": "smooth",
     "editor.cursorSmoothCaretAnimation": true
-  }
+  },
+  "extensions": [
+    "jannisx11.batch-rename-extension",
+    "coenraads.bracket-pair-colorizer-2",
+    "adpyke.codesnap",
+    "royaction.color-manager",
+    "abusaidm.html-snippets",
+    "piyushvscode.nodejs-snippets",
+    "joelcrosby.one-dark-darker",
+    "mohsen1.prettify-json",
+    "netcorext.uuid-generator",
+    "vscode-icons-team.vscode-icons",
+    "jeff-hykin.better-dockerfile-syntax",
+    "github.copilot"
+  ],
 }
