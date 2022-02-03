@@ -89,9 +89,10 @@ router.post("/", accountCreationLimit, async (req, res, next) => {
   let issue = '';
 
   if (validator.passwordStrength(req.body.password) >= 20) { validation.password = true } else { issue = 'Password strength is too low' };
-  if (validator.validateEmail(req.body.email)) { validation.email = true } else { issue = 'Email is invalid' };
   if (validator.validateUsername(req.body.username)) { validation.username = true } else { issue = 'Username is invalid' };
   if (validator.existsUsername(req.body.username)) { validation.username = true; } else { issue = 'Username already exists' };
+  if (validator.validateEmail(req.body.email)) { validation.email = true } else { issue = 'Email is invalid' };
+  if (validator.existsEmail(req.body.email)) { validation.email = true } else { issue = 'Email already exists' };
 
   console.log(validation);
 

@@ -133,4 +133,20 @@ validator.existsEmail = (email) => {
     });
   });
 }
+
+validator.existsUsername = (username) => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ username: username }, (err, user) => {
+      if (err) {
+        reject(err);
+      }
+      if (user) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+}
+
 module.exports = validator;
