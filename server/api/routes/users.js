@@ -80,7 +80,7 @@ router.get('/user/:username', requestLimit, (req, res, next) => {
 });
 
 // Create a new user using the schema
-router.post("/", accountCreationLimit, (req, res, next) => {
+router.post("/", accountCreationLimit, async (req, res, next) => {
   let validation = {
     password: false,
     email: false,
@@ -91,6 +91,7 @@ router.post("/", accountCreationLimit, (req, res, next) => {
   if (validator.passwordStrength(req.body.password) >= 20) { validation.password = true } else { issue = 'Password strength is too low' };
   if (validator.validateEmail(req.body.email)) { validation.email = true } else { issue = 'Email is invalid' };
   if (validator.validateUsername(req.body.username)) { validation.username = true } else { issue = 'Username is invalid' };
+  if (validator.existsUsername(req.body.username)) { validation.username = true; } else { issue = 'Username already exists' };
 
   console.log(validation);
 
