@@ -2,6 +2,8 @@ const validator = {}
 const fs = require('fs');
 const path = require('path');
 
+const User = require('../../api/models/users');
+
 // check if the password "password" is a common password
 const isCommonPassword = (password) => {
   // load common passwords list
@@ -114,6 +116,37 @@ validator.validateUsername = (username) => {
   }
 
   return true;
+}
+
+validator.existsEmail = (email) => {
+  // check if the email exists in the database
+  return new Promise((resolve, reject) => {
+    User.findOne({ email: email }, (err, user) => {
+      if (err) {
+        reject(err);
+      }
+      if (user) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+}
+
+validator.existsUsername = (username) => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ username: username }, (err, user) => {
+      if (err) {
+        reject(err);
+      }
+      if (user) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
 }
 
 module.exports = validator;
