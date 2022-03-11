@@ -8,7 +8,7 @@ const router = express.Router();
 // Import custom modules
 const errorHandlerLogger = require('../../assets/logging/errorHandler');
 const validator = require('../../assets/login/validator');
-const passCrypt = require('../../assets/login/passCrypt');
+const crypt = require('../../assets/login/crypt');
 
 // Import models
 const User = require('../models/users');
@@ -102,7 +102,7 @@ router.post("/", accountCreationLimit, async (req, res, next) => {
       issue: issue
     });
   } else {
-    const password = passCrypt.encrypt(req.body.password);
+    const password = crypt.encrypt(req.body.password);
     const user = new User({
       _id: new mongoose.Types.ObjectId(),
       username: req.body.username,
