@@ -1,0 +1,21 @@
+Admin application account = 9
+User application account = 0
+
+Auth application account = 9
+UnAuth application account = 0
+
+- Root route: 0
+- Root Subroutes: 1
+
+| - Subroutes: 
+
+##################################################
+
+xx-xxxx-
+
+Admin Auth application
+99-xxxx
+
+User Auth application
+00-xxxx
+
