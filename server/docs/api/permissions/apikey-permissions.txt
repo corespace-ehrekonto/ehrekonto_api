@@ -8,14 +8,34 @@ UnAuth application account = 0
 - Root Subroutes: 1
 
 | - Subroutes: 
+| - - users: 00000001
+| - | - GET: 
+| - | - POST: 
+| - | - PUT: 
+| - | - DELETE: 
+| - - honor:00000010
+| - | - GET: 
+| - | - POST: 
+| - | - PUT: 
+| - | - DELETE: 
+| - - developer: 00000011
+| - | - GET: 
+| - | - POST: 
+| - | - PUT: 
+| - | - DELETE: 
+
+userAuth-user:get|post|put,honor:get|post,interface:get
+
+09-
 
 ##################################################
-
-xx-xxxx-
+Examples:
 
 Admin Auth application
 99-xxxx
 
 User Auth application
-00-xxxx
+09-xxxx
 
+User UnAuth application
+00-xxxx

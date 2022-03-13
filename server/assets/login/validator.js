@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const User = require('../../api/models/users');
+const Developer = require('../../api/models/developers');
 
 // check if the password "password" is a common password
 const isCommonPassword = (password) => {
@@ -144,6 +145,36 @@ validator.existsUsername = (username) => {
         resolve(true);
       } else {
         resolve(false);
+      }
+    });
+  });
+}
+
+validator.checkUUid = (uuid) => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ _id: uuid }, (err, user) => {
+      if (err) {
+        reject(err);
+      }
+      if (user) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+}
+
+validator.checkForDeveloper = (uuid) => {
+  return new Promise((resolve, reject) => {
+    Developer.findOne({ uuid: uuid }, (err, developer) => {
+      if (err) {
+        reject(err);
+      }
+      if (developer === true || developer !== null) {
+        resolve(developer);
+      } else {
+        resolve(developer);
       }
     });
   });
