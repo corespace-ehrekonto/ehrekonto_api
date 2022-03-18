@@ -145,6 +145,27 @@ router.post('/login', requestLimit, async (req, res, next) => {
     });
 });
 
+/**
+  * Logging out a user
+  * @param {String} The username of the user
+  * @param {String} The login token of the user
+  */
+router.post('/logout', requestLimit, (req, res, next) => {
+  // check if the user is logged in and has a loginToken
+  if (!req.body.username) { return res.status(400).json({ message: 'Username is required' }); }
+  if (!req.body.loginToken) { return res.status(400).json({ message: 'Login token is required' }); }
+
+  // use $unset to remove the loginToken from the user in the database and return a success message
+  User.findOneAndUpdate({ username: req.body.username, loginToken: req.body.loginToken }, { $unset: { loginToken: "" } }, { new: false }).exec()
+    .then(user => {
+      if (!user) { return res.status(401).json({ message: 'Session is not valid' }); }
+
+      res.status(200).json({
+        message: 'Logout successful',
+        lastLogin: user.lastLogin
+      });
+    }).catch(err => {
+      console.log(err);
 // Update user via id and given fields
 router.patch('/:userId', requestLimit, (req, res, next) => {
   const id = req.params.userId;
