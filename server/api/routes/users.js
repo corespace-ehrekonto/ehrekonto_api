@@ -72,7 +72,7 @@ router.post("/register", accountCreationLimit, async (req, res, next) => {
     // Creating new user object
     const user = new User({
       _id: new mongoose.Types.ObjectId(),
-      username: req.body.username,
+      username: req.body.username.toLowerCase(),
       password: password,
       email: req.body.email
     });
