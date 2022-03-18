@@ -25,21 +25,23 @@ crypt.generateRandomHash = () => {
   return bcrypt.hashSync(Math.random().toString(), bcrypt.genSaltSync(11), null);
 }
 
-// crypt.generateApiKey = () => {
-//   const randomHash = crypt.generateRandomHash();
-//   const HashMap = randomHash.split('');
+crypt.generateLoginToken = (username) => {
+  username = username.toLowerCase();
+  const date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+  var preToken = "";
 
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i = 0; i < 32; i++)
+    preToken += possible.charAt(Math.floor(Math.random() * 32));
 
-//   5 8 6 1 9
-//   // // create new string with parts of the HashMap
-//   // let newHash = '';
-//   // for (let i = 0; i < HashMap.length; i++) {
-//   //   if (i % 2 === 0) {
-//   //     newHash += HashMap[i];
-//   //   }
-//   // }
+  // mix the username and the date together in a random order
+  var mixed = username + date + preToken;
+  var mixedArray = mixed.split('');
+  mixedArray.sort(function () { return 0.5 - Math.random() });
 
-//   return HashMap;
-// }
+  var token = mixedArray.join('');
+  token = token.replace(/\s/g, '');
+  return token;
+}
 
 module.exports = crypt;
