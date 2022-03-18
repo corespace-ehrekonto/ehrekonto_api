@@ -30,57 +30,6 @@ const requestLimit = rateLimit({
 
 console.log('Ehrekonto: Users route loaded');
 
-// Get all users currently in the database
-router.get("/", requestLimit, (req, res, next) => {
-  User.find()
-    .exec()
-    .then(docs => {
-      // remove the password field from docs
-      docs.forEach(doc => {
-        doc.password = undefined;
-      });
-      res.status(200).json(docs);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-});
-
-// Get user via id
-router.get('/:userId', requestLimit, (req, res, next) => {
-  const id = req.params.userId;
-  User.findById(id).exec()
-    .then(doc => {
-      doc.password = undefined;
-      console.log(doc);
-      res.status(200).json(doc);
-    }).catch(err => {
-      console.log(err);
-      errorHandlerLogger.log(err, req, res, next);
-      res.status(500).json({ error: err })
-    });
-});
-
-// Get user via username
-router.get('/user/:username', requestLimit, (req, res, next) => {
-  const username = req.params.username;
-  User.find({ username: username }).exec()
-    .then(doc => {
-      doc.password = undefined;
-      console.log(doc);
-      res.status(200).json(doc);
-    }).catch(err => {
-      console.log(err);
-      errorHandlerLogger.log(err, req, res, next);
-      res.status(500).json({ error: err });
-    });
-});
-
-// Create a new user using the schema
-router.post("/", accountCreationLimit, async (req, res, next) => {
   let validation = {
     password: false,
     email: false,
