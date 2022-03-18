@@ -27,6 +27,8 @@ const isCommonPassword = (password) => {
 validator.passwordStrength = (password) => {
   let passwordStrength = 0;
 
+  if (!password) { return 0; }
+
   // for every alphabetical character in the password, add 1 to the passwordStrength
   for (let i = 0; i < password.length; i++) {
     if (password[i].match(/[a-z]/i)) {
@@ -81,6 +83,8 @@ validator.validateEmail = (email) => {
   const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
   const allowedTopLevelDomains = ['de', 'com', 'net', 'org', 'edu'];
 
+  if (!email) { return false; }
+
   if (email.length === 0 || email.length < 5 || email.length > 254) {
     return false;
   }
@@ -107,6 +111,8 @@ validator.validateUsername = (username) => {
   const forbiddenCharacters = [
     '<', '>', ':', '"', '/', '\\', '|', '?', '*', '.', ' ', '\t', '\n', '\r', '\f', '\v', '\0',
     '{', '}', '[', ']', ';', '=', '+', '&', '%', '$', '#', '@', '!', '~', '`', '^', '\'', ','];
+
+  if (!username) { return false; }
 
   // check if the username contains any forbiddenCharacter
   for (let i = 0; i < forbiddenCharacters.length; i++) {
