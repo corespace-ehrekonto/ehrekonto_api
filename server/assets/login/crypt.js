@@ -17,7 +17,7 @@ crypt.encrypt = (password) => {
  * @param {String} hash 
  * @returns 
  */
-crypt.decrypt = (password, hash) => {
+crypt.compare = (password, hash) => {
   return bcrypt.compareSync(password, hash);
 }
 
