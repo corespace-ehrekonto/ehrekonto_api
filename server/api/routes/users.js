@@ -95,6 +95,56 @@ router.post("/register", accountCreationLimit, async (req, res, next) => {
   }
 });
 
+/**
+  * Logging in a user
+  * @param {String} The username of the user
+  * @param {String} The password of the user
+  */
+router.post('/login', requestLimit, async (req, res, next) => {
+  const username = req.body.username.toLowerCase();
+  const password = req.body.password;
+
+  // Check if all fields are present
+  if (!username) { return res.status(400).json({ message: 'Username is required' }); }
+  if (!password) { return res.status(400).json({ message: 'Password is required' }); }
+
+  // Check if the user exists in the database
+  // Return error if not found
+  User.findOne({ username: username }).exec()
+    .then(user => {
+      if (!user) { return res.status(401).json({ message: 'User does not exist' }); }
+
+      // Checking the provided password against the hashed password in the database
+      if (crypt.compare(password, user.password)) {
+        const loginToken = crypt.generateLoginToken(username);
+
+        // If the password was correct the user is logged in
+        // LoginToken is generated, returned to the user and stored in the database
+        User.findOneAndUpdate({ username: username }, { loginToken: loginToken, lastLogin: Date.now() }, { new: false }).exec()
+          .then(user => {
+
+            // Respond to user with a success message and the login token
+            res.status(200).json({
+              message: 'Authentication successful',
+              user: username,
+              token: loginToken
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            errorHandlerLogger.log(err, req, res, next);
+            res.status(500).json({ error: err });
+          });
+      } else {
+        return res.status(401).json({ message: 'Invalid password' });
+      }
+    }).catch(err => {
+      console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
+      res.status(500).json({ error: err });
+    });
+});
+
 // Update user via id and given fields
 router.patch('/:userId', requestLimit, (req, res, next) => {
   const id = req.params.userId;
