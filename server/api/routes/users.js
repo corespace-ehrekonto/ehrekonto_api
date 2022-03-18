@@ -59,13 +59,17 @@ router.post("/register", accountCreationLimit, async (req, res, next) => {
 
   console.log(validation);
 
+  // If all fields are valid, create a new user otherwise return an error
   if (!validation.password || !validation.email || !validation.username) {
     res.status(400).json({
       message: 'Validation failed',
       issue: issue
     });
   } else {
+    // Hashing the password
     const password = crypt.encrypt(req.body.password);
+
+    // Creating new user object
     const user = new User({
       _id: new mongoose.Types.ObjectId(),
       username: req.body.username,
@@ -73,6 +77,7 @@ router.post("/register", accountCreationLimit, async (req, res, next) => {
       email: req.body.email
     });
 
+    // Saving the new user to the database
     user.save()
       .then(result => {
         console.log(result);
