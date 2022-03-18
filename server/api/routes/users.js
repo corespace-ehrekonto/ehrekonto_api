@@ -30,11 +30,19 @@ const requestLimit = rateLimit({
 
 console.log('Ehrekonto: Users route loaded');
 
+/**
+  * Register a new user
+  * @param {String} The username of the user
+  * @param {String} The password of the user
+  * @param {String} The email of the user 
+  */
+router.post("/register", accountCreationLimit, async (req, res, next) => {
   let validation = {
     password: false,
     email: false,
     username: false
   };
+
   let issue = '';
 
   if (validator.passwordStrength(req.body.password) >= 20) { validation.password = true } else { issue = 'Password strength is too low' };
