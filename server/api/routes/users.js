@@ -166,6 +166,11 @@ router.post('/logout', requestLimit, (req, res, next) => {
       });
     }).catch(err => {
       console.log(err);
+      errorHandlerLogger.log(err, req, res, next);
+      res.status(500).json({ error: err });
+    });
+});
+
 // Update user via id and given fields
 router.patch('/:userId', requestLimit, (req, res, next) => {
   const id = req.params.userId;
