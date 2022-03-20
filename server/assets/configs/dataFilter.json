@@ -1,0 +1,10 @@
+{
+  "users": [
+    "password",
+    "email",
+    "loginToken",
+    "lastLogin",
+    "_id",
+    "__v"
+  ]
+}

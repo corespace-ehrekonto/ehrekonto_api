@@ -9,6 +9,7 @@ const router = express.Router();
 const errorHandlerLogger = require('../../assets/logging/errorHandler');
 const validator = require('../../assets/login/validator');
 const crypt = require('../../assets/login/crypt');
+const dataFilter = require('../../assets/utils/dataFilter');
 
 // Import models
 const User = require('../models/users');
@@ -29,6 +30,20 @@ const requestLimit = rateLimit({
 });
 
 console.log('Ehrekonto: Users route loaded');
+
+router.get("/", requestLimit, (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      errorHandlerLogger.logError(err);
+      res.status(500).send(err);
+    } else {
+
+      // remove password from the user object before sending it to the client and make sure it's not sent back to the client
+      const userData = dataFilter.userData(users);
+      res.send(userData);
+    }
+  });
+});
 
 /**
   * Register a new user
