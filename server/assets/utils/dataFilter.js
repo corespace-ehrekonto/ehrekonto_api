@@ -20,11 +20,6 @@ dataFilter.userData = (users, filter) => {
       delete userObj[field];
     });
 
-    // // remote every fild listed in dataFilter->users
-    // dataFilter.users.forEach((field) => {
-    //   delete userObj[field];
-    // });
-
     return userObj;
   });
 
