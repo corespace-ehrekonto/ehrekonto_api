@@ -7,17 +7,23 @@ const dataFilter = {}
  * Return the project root directory of the project
  * @returns {String} rootDir
  */
-dataFilter.userData = (users) => {
+dataFilter.userData = (users, filter) => {
+  if (!filter) { return users; }
+
   const dataFilterRaw = fs.readFileSync(path.resolve(__dirname, '../configs/dataFilter.json'));
   const dataFilter = JSON.parse(dataFilterRaw);
 
   const usersObj = users.map((user) => {
     const userObj = user.toJSON();
 
-    // remote every fild listed in dataFilter->users
-    dataFilter.users.forEach((field) => {
+    dataFilter.users[filter].forEach((field) => {
       delete userObj[field];
     });
+
+    // // remote every fild listed in dataFilter->users
+    // dataFilter.users.forEach((field) => {
+    //   delete userObj[field];
+    // });
 
     return userObj;
   });

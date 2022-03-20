@@ -39,7 +39,7 @@ router.get("/", requestLimit, (req, res) => {
     } else {
 
       // remove password from the user object before sending it to the client and make sure it's not sent back to the client
-      const userData = dataFilter.userData(users);
+      const userData = dataFilter.userData(users, "default");
       res.send(userData);
     }
   });
