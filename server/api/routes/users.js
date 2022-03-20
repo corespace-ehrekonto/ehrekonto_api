@@ -128,6 +128,7 @@ router.post('/login', requestLimit, async (req, res, next) => {
   User.findOne({ username: username }).exec()
     .then(user => {
       if (!user) { return res.status(401).json({ message: 'User does not exist' }); }
+      if (user.loginToken) { return res.status(401).json({ message: 'User is already logged in' }); }
 
       // Checking the provided password against the hashed password in the database
       if (crypt.compare(password, user.password)) {
