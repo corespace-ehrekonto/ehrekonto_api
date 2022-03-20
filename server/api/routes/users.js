@@ -14,7 +14,7 @@ const crypt = require('../../assets/login/crypt');
 const User = require('../models/users');
 
 // Import protected config
-const protectConfig = fs.readFileSync(path.resolve(__dirname, '../configs/protected.json'));
+const protectConfig = fs.readFileSync(path.resolve(__dirname, '../../assets/configs/protected.json'));
 // console.log(__dirname);
 
 // Create rate limit
