@@ -65,12 +65,18 @@ router.post("/register", accountCreationLimit, async (req, res, next) => {
   if (!req.body.email) { res.status(400).json({ message: 'Email is required' }); return; }
   if (!req.body.password) { res.status(400).json({ message: 'Password is required' }); return; }
 
+  const existUsername = await validator.existsUsername(req.body.username);
+  const existEmail = await validator.existsEmail(req.body.email);
+  const validPassword = await validator.validatePassword(req.body.password);
+  const validUsername = await validator.validateUsername(req.body.username);
+  const validEmail = await validator.validateEmail(req.body.email);
+
   // Checking fields for validity
-  if (validator.existsUsername(req.body.username)) { validation.username = true; } else { issue = 'Username already exists' };
-  if (validator.existsEmail(req.body.email)) { validation.email = true } else { issue = 'Email already exists' };
-  if (validator.validateUsername(req.body.username)) { validation.username = true } else { issue = 'Username is invalid' };
-  if (validator.validateEmail(req.body.email)) { validation.email = true } else { issue = 'Email is invalid' };
-  if (validator.passwordStrength(req.body.password) >= 20) { validation.password = true } else { issue = 'Password strength is too low' };
+  if (validUsername) { validation.username = true } else { validation.username = false; issue = 'Username is invalid' };
+  if (validEmail) { validation.email = true } else { validation.email = false; issue = 'Email is invalid' };
+  if (!existEmail) { validation.email = true } else { validation.email = false; issue = 'Email already exists' };
+  if (!existUsername) { validation.username = true; } else { validation.username = false; issue = 'Username already exists' };
+  if (validPassword >= 20) { validation.password = true } else { validation.password = false; issue = 'Password strength is too low' };
 
   console.log(validation);
 

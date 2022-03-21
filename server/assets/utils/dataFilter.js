@@ -8,7 +8,7 @@ const dataFilter = {}
  * @returns {String} rootDir
  */
 dataFilter.userData = (users, filter) => {
-  if (!filter) { return users; }
+  if (!filter) { filter = "default" }
 
   const dataFilterRaw = fs.readFileSync(path.resolve(__dirname, '../configs/dataFilter.json'));
   const dataFilter = JSON.parse(dataFilterRaw);
