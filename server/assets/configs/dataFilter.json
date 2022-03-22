@@ -1,0 +1,18 @@
+{
+  "users": {
+    "default": [
+      "password",
+      "email",
+      "loginToken",
+      "lastLogin",
+      "_id",
+      "__v"
+    ],
+    "profile": [
+      "password",
+      "loginToken",
+      "_id",
+      "__v"
+    ]
+  }
+}

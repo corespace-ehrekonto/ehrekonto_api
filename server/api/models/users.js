@@ -6,8 +6,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   email: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  updateAt: { type: Date, required: false },
-  img: { type: String, required: false },
+  loginToken: { type: String, required: false },
+  lastLogin: { type: Date, required: false },
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const User = require('../../api/models/users');
+const Developer = require('../../api/models/developers');
 
 // check if the password "password" is a common password
 const isCommonPassword = (password) => {
@@ -25,6 +26,8 @@ const isCommonPassword = (password) => {
  */
 validator.passwordStrength = (password) => {
   let passwordStrength = 0;
+
+  if (!password) { return 0; }
 
   // for every alphabetical character in the password, add 1 to the passwordStrength
   for (let i = 0; i < password.length; i++) {
@@ -80,6 +83,8 @@ validator.validateEmail = (email) => {
   const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
   const allowedTopLevelDomains = ['de', 'com', 'net', 'org', 'edu'];
 
+  if (!email) { return false; }
+
   if (email.length === 0 || email.length < 5 || email.length > 254) {
     return false;
   }
@@ -106,6 +111,8 @@ validator.validateUsername = (username) => {
   const forbiddenCharacters = [
     '<', '>', ':', '"', '/', '\\', '|', '?', '*', '.', ' ', '\t', '\n', '\r', '\f', '\v', '\0',
     '{', '}', '[', ']', ';', '=', '+', '&', '%', '$', '#', '@', '!', '~', '`', '^', '\'', ','];
+
+  if (!username) { return false; }
 
   // check if the username contains any forbiddenCharacter
   for (let i = 0; i < forbiddenCharacters.length; i++) {
@@ -144,6 +151,36 @@ validator.existsUsername = (username) => {
         resolve(true);
       } else {
         resolve(false);
+      }
+    });
+  });
+}
+
+validator.checkUUid = (uuid) => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ _id: uuid }, (err, user) => {
+      if (err) {
+        reject(err);
+      }
+      if (user) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+}
+
+validator.checkForDeveloper = (uuid) => {
+  return new Promise((resolve, reject) => {
+    Developer.findOne({ uuid: uuid }, (err, developer) => {
+      if (err) {
+        reject(err);
+      }
+      if (developer === true || developer !== null) {
+        resolve(developer);
+      } else {
+        resolve(developer);
       }
     });
   });

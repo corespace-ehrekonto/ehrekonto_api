@@ -6,11 +6,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const rfs = require('rotating-file-stream');
+const rateLimit = require('express-rate-limit');
 
 // Import custom modules
 const projectRoot = require('./assets/utils/getProjectRoot');
 const errorHandlerLogger = require('./assets/logging/errorHandler');
 const dbc = require('./assets/database/dbconnect');
+
+// Create rate limit
+const generalApiLimit = rateLimit({
+  windowMs: 5 * 60 * 1000, max: 5000,
+  message: "General Api request limit exceeded"
+});
+
+const rootLimit = rateLimit({
+  windowMs: 5 * 60 * 1000, max: 50,
+  message: "Root request limit exceeded"
+});
 
 // Initialize the api handler
 const app = express();
@@ -44,14 +56,14 @@ routes.forEach(route => {
   const routePath = path.join(__dirname, 'api/routes', route);
   const routeName = route.replace('.js', '');
   const routeHandler = require(routePath);
-  app.use(`/${routeName}`, routeHandler);
+  app.use(`/${routeName}`, generalApiLimit, routeHandler);
 });
 
 // // Create mongoose db connection
 dbc.mongo_connect();
 
 // Handle 404 error
-app.use((req, res, next) => {
+app.use(rootLimit, (req, res, next) => {
   const err = new Error('Route not found');
   err.status = 404;
   next(err);

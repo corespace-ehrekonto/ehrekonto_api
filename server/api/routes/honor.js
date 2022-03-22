@@ -7,7 +7,7 @@ const router = express.Router();
 const errorHandlerLogger = require('../../assets/logging/errorHandler');
 
 // Import models
-const Honor = require('../models/honor');
+const Honor = require('../models/honors');
 
 // Create rate limit
 const addHonorLimit = rateLimit({
