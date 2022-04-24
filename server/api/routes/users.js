@@ -147,12 +147,12 @@ router.post("/register", accountCreationLimit, async (req, res, next) => {
   * @param {String} The password of the user
   */
 router.post('/login', requestLimit, async (req, res, next) => {
+  // Check if all fields are present
+  if (!req.body.username) { res.status(400).json({ message: 'Username is required' }); return; }
+  if (!req.body.password) { res.status(400).json({ message: 'Password is required' }); return; }
+
   const username = req.body.username.toLowerCase();
   const password = req.body.password;
-
-  // Check if all fields are present
-  if (!username) { return res.status(400).json({ message: 'Username is required' }); }
-  if (!password) { return res.status(400).json({ message: 'Password is required' }); }
 
   // Check if the user exists in the database
   // Return error if not found
