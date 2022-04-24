@@ -6,4 +6,4 @@ dataHandler.getUUID = async (username) => {
   return user.uuid;
 }
 
-module.exports = dataRequster;
+module.exports = dataHandler;

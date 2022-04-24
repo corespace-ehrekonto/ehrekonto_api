@@ -10,6 +10,7 @@ const errorHandlerLogger = require('../../assets/logging/errorHandler');
 const validator = require('../../assets/login/validator');
 const crypt = require('../../assets/login/crypt');
 const dataFilter = require('../../assets/utils/dataFilter');
+const dataHandler = require('../../assets/utils/dataHandler');
 
 // Import models
 const User = require('../models/users');
