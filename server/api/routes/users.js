@@ -92,7 +92,7 @@ router.post("/register", accountCreationLimit, async (req, res, next) => {
 
   const existUsername = await validator.existsUsername(req.body.username);
   const existEmail = await validator.existsEmail(req.body.email);
-  const validPassword = await validator.validatePassword(req.body.password);
+  const validPassword = await validator.passwordStrength(req.body.password);
   const validUsername = await validator.validateUsername(req.body.username);
   const validEmail = await validator.validateEmail(req.body.email);
 
