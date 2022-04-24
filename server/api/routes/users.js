@@ -38,8 +38,8 @@ router.get("/", requestLimit, (req, res) => {
       res.status(500).send(err);
     } else {
 
-      // remove password from the user object before sending it to the client and make sure it's not sent back to the client
-      const userData = dataFilter.userData(users, "default");
+      // Remove password from the user object before sending it to the client and make sure it's not sent back to the client
+      const userData = dataFilter.getUsers(users, "default");
       res.send(userData);
     }
   });
