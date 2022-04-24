@@ -6,4 +6,9 @@ dataHandler.getUUID = async (username) => {
   return user.uuid;
 }
 
+dataHandler.getLastLogin = async (user) => {
+  const timestamp = user.lastLogin;
+  return timestamp;
+}
+
 module.exports = dataHandler;

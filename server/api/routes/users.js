@@ -47,6 +47,30 @@ router.get("/", requestLimit, (req, res) => {
 });
 
 /**
+  * Request last Login timestamp
+  * @param {string} username
+  * @param {string} loginToken
+  * @return {object}
+ */
+router.post("/lastLogin", requestLimit, async (req, res) => {
+  const username = req.body.username;
+  const loginToken = req.body.loginToken;
+
+  // Request the user data from the database
+  const user = await User.findOne({ username: username });
+
+  // Check if the loginToken is valid
+  // Send the last login timestamp to the client
+  if (user.loginToken === loginToken) {
+    const timestamp = await dataHandler.getLastLogin(user);
+    res.send({ lastLogin: timestamp });
+  } else {
+    // Send an error message to the client
+    res.send({ error: "Invalid credentials" });
+  }
+});
+
+/**
   * Register a new user
   * @param {String} The username of the user
   * @param {String} The password of the user
