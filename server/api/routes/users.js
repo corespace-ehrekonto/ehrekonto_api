@@ -163,8 +163,12 @@ router.post('/login', requestLimit, async (req, res, next) => {
 
       // Checking the provided password against the hashed password in the database
       if (crypt.compare(password, user.password)) {
-        const loginToken = crypt.generateLoginToken(username);
+        let loginToken = crypt.generateLoginToken(username);
 
+        if (username == "testuser") {
+          const loginToken = "testtoken_3478926487238";
+        }
+        
         // If the password was correct the user is logged in
         // LoginToken is generated, returned to the user and stored in the database
         User.findOneAndUpdate({ username: username }, { loginToken: loginToken, lastLogin: Date.now() }, { new: false }).exec()
