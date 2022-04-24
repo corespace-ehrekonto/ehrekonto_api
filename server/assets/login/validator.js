@@ -113,6 +113,7 @@ validator.validateUsername = (username) => {
     '{', '}', '[', ']', ';', '=', '+', '&', '%', '$', '#', '@', '!', '~', '`', '^', '\'', ','];
 
   if (!username) { return false; }
+  if (username === undefined) { return false; }
 
   // check if the username contains any forbiddenCharacter
   for (let i = 0; i < forbiddenCharacters.length; i++) {
