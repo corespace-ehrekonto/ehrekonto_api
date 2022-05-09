@@ -1,0 +1,8 @@
+{
+  "root": {
+    "message": "Request limit exceeded",
+    "__comment1__":"time is set in seconds",
+    "time": 60,
+    "limit": 120
+  }
+}
