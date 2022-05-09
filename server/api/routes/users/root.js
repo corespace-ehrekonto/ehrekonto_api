@@ -38,7 +38,7 @@ const requestLimit = rateLimit({
   message: "Data request limit exceeded"
 });
 
-router.get("/", (req, res) => {
+router.get("/", requestLimit, (req, res) => {
   User.find({}, (err, users) => {
     if (err) {
       errorHandlerLogger.logError(err);
