@@ -25,17 +25,18 @@ const dataHandler = require(`${rootPath}assets/utils/dataHandler`);
 // Import models
 const User = require('../../models/users');
 
+// Import limit config
+const rootLimit = JSON.parse(fs.readFileSync(`${rootPath}assets/configs/rates/users.json`));
+const limit = rootLimit["root"].limit || 20;
+const time = rootLimit["root"].time || 60;
+const message = rootLimit["root"].message || "Limit exceeded"
+
 console.log(`Ehrekonto: Users/${scriptName} route loaded`);
 
 // Create rate limit
-const accountCreationLimit = rateLimit({
-  windowMs: 60 * 60 * 1000, max: 5,
-  message: "Account creation limit exceeded"
-});
-
 const requestLimit = rateLimit({
-  windowMs: 5 * 60 * 1000, max: 120,
-  message: "Data request limit exceeded"
+  windowMs: 1000 * time, max: limit,
+  message: message
 });
 
 router.get("/", requestLimit, (req, res) => {

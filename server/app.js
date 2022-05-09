@@ -17,15 +17,16 @@ const routePaths = require('./assets/utils/getRoutePaths');
 // var init
 const rootPath = `${projectRoot.getDir()}/server/`;
 
+// Import limit config
+const rootLimit = JSON.parse(fs.readFileSync(`${rootPath}assets/configs/rates/root.json`));
+const limit = rootLimit["root"].limit || 20;
+const time = rootLimit["root"].time || 1;
+const message = rootLimit["root"].message || "Limit exceeded"
+
 // Create rate limit
 const generalApiLimit = rateLimit({
-  windowMs: 5 * 60 * 1000, max: 5000,
-  message: "General Api request limit exceeded"
-});
-
-const rootLimit = rateLimit({
-  windowMs: 5 * 60 * 1000, max: 50,
-  message: "Root request limit exceeded"
+  windowMs: 1000 * time, max: limit,
+  message: message
 });
 
 // Initialize the api handler
@@ -52,6 +53,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', process.env.ALLOWED_METHODS);
     return res.status(200).json({});
   }
+
   next();
 });
 
@@ -64,7 +66,7 @@ apiRouteKeys.forEach(key => {
     const routePath = path.join(rootPath, 'api/routes', key, route);
     const routeName = `${key}`;
     const routeHandler = require(routePath);
-    app.use(`/${routeName}`, generalApiLimit, routeHandler);
+    app.use(`/${routeName}`, generalApiLimit,routeHandler);
   })
 });
 
@@ -72,7 +74,7 @@ apiRouteKeys.forEach(key => {
 dbc.mongo_connect();
 
 // Handle 404 error
-app.use(rootLimit, (req, res, next) => {
+app.use(generalApiLimit, (req, res, next) => {
   const err = new Error('Route not found');
   err.status = 404;
   next(err);
