@@ -126,7 +126,6 @@ router.post("/register", accountCreationLimit, async (req, res, next) => {
     // Saving the new user to the database
     user.save()
       .then(result => {
-        console.log(result);
         res.status(201).json({
           message: "Handling POST requests to /users",
           createdProduct: result
