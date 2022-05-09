@@ -12,6 +12,10 @@ const rateLimit = require('express-rate-limit');
 const projectRoot = require('./assets/utils/getProjectRoot');
 const errorHandlerLogger = require('./assets/logging/errorHandler');
 const dbc = require('./assets/database/dbconnect');
+const routePaths = require('./assets/utils/getRoutePaths');
+
+// var init
+const rootPath = `${projectRoot.getDir()}/server/`;
 
 // Create rate limit
 const generalApiLimit = rateLimit({
@@ -51,13 +55,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// Loading all available routes
-const routes = fs.readdirSync(path.join(__dirname, 'api/routes'));
-routes.forEach(route => {
-  const routePath = path.join(__dirname, 'api/routes', route);
-  const routeName = route.replace('.js', '');
-  const routeHandler = require(routePath);
-  app.use(`/${routeName}`, generalApiLimit, routeHandler);
+const apiRoutes = routePaths.getAllRoutes(rootPath);
+const apiRouteKeys = Object.keys(apiRoutes)
+
+apiRouteKeys.forEach(key => {
+  const subRoutes = apiRoutes[key];
+  subRoutes.forEach(route => {
+    const routePath = path.join(rootPath, 'api/routes', key, route);
+    const routeName = `${key}`;
+    const routeHandler = require(routePath);
+    app.use(`/${routeName}`, generalApiLimit, routeHandler);
+  })
 });
 
 // // Create mongoose db connection
