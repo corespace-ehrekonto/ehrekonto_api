@@ -1,9 +1,21 @@
-const validator = require('./assets/login/validator');
+const fs = require('fs');
+const path = require('path');
 
-// const password = "a$KN.kaCQhVTJQ9E;~LNQK[E(aDQ]HXP_\.}V3GVK8]#qW_XFHc)7<@xg#]ZN~)@/eyL=NA9w7^bF-WJMFv/3#Jt,>{iWHKwC/o/";
+const routePaths = require('./assets/utils/getRoutePaths');
+const projectRoot = require('./assets/utils/getProjectRoot');
 
-// console.log(validator.passwordStrength(password));
+// var init
+const rootPath = `${projectRoot.getDir()}/server/`;
 
-// console.log(validator.validateEmail('test@corespace.de'));
 
-console.log(validator.validateUsername('/(/)(/)&(&)'));
+const apiRoutes = routePaths.getAllRoutes(rootPath);
+const apiRouteKeys = Object.keys(apiRoutes)
+
+apiRouteKeys.forEach(key => {
+  const subRoutes = apiRoutes[key];
+  subRoutes.forEach(route => {
+    console.log(`Route ${key}->${route} was loaded`);
+  })
+});
+
+// console.log(apiRoutes);
