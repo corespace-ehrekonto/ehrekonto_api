@@ -1,13 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const rateLimit = require('express-rate-limit');
+
+// Importing router
 const router = express.Router();
 
+// Get Project Root Path
+const projectRoot = require('../../../assets/utils/getProjectRoot');
+const rootPath = `${projectRoot.getDir()}/server/`;
+
+
+// Get script name
+var scriptName = path.basename(__filename);
+
 // Import custom modules
-const errorHandlerLogger = require('../../assets/logging/errorHandler');
+const errorHandlerLogger = require(`${rootPath}assets/logging/errorHandler`);
 
 // Import models
-const Honor = require('../models/honors');
+const Honor = require(`${rootPath}api/models/honors`);
+
+console.log(`Ehrekonto: Honor/${scriptName} route loaded`);
 
 // Create rate limit
 const addHonorLimit = rateLimit({
@@ -19,8 +32,6 @@ const requestHonorLimit = rateLimit({
   windowMs: 5 * 60 * 1000, max: 120,
   message: "Honor request limit exceeded"
 });
-
-console.log('Ehrekonto: Honor route loaded');
 
 // Create the root product route
 router.get("/", requestHonorLimit, (req, res, next) => {

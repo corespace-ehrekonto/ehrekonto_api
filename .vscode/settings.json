@@ -3,7 +3,7 @@
   "editor.autoClosingBrackets": "always",
   "editor.autoClosingQuotes": "always",
   "editor.autoSurround": "languageDefined",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "editor.formatOnType": false,
   "editor.formatOnPaste": true,
   "editor.bracketPairColorization.enabled": true,
@@ -33,6 +33,7 @@
   },
   "[.env]": {
     "editor.autoClosingBrackets": "never",
+    "editor.formatOnSave": false,
     "editor.inlineSuggest.enabled": false,
     "editor.largeFileOptimizations": false,
     "editor.detectIndentation": false,
