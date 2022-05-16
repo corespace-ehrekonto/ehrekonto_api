@@ -32,7 +32,7 @@ const requestLimit = rateLimit({
   message: message
 });
 
-router.get("/", requestLimit, (req, res) => {
+router.get("/healthcheck", requestLimit, (req, res) => {
   res.sendStatus(200, "Healthy");
 });
 
