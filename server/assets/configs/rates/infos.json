@@ -1,0 +1,14 @@
+{
+  "root": {
+    "message": "General Api request limit exceeded",
+    "__comment1__":"time is set in seconds",
+    "time": 1,
+    "limit": 20
+  },
+  "healthcheck": {
+    "message": "Healthcheck Api request limit exceeded",
+    "__comment1__":"time is set in seconds",
+    "time": 60,
+    "limit": 20
+  }
+}
