@@ -42,7 +42,11 @@
   "[markdown]": {
     "editor.unicodeHighlight.ambiguousCharacters": false,
     "editor.wordWrap": "on",
-    "editor.quickSuggestions": false
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    }
   },
   "[plaintext]": {
     "editor.unicodeHighlight.ambiguousCharacters": false

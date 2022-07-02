@@ -39,6 +39,7 @@ const requestLimit = rateLimit({
   message: message
 });
 
+// Request all current registered users
 router.get("/", requestLimit, (req, res) => {
   User.find({}, (err, users) => {
     if (err) {
@@ -47,7 +48,33 @@ router.get("/", requestLimit, (req, res) => {
     } else {
 
       // Remove password from the user object before sending it to the client and make sure it's not sent back to the client
-      const userData = dataFilter.getUsers(users, "default");
+      const userData = dataFilter.getUsers(users, "unfiltered");
+      res.send(userData);
+    }
+  });
+});
+
+router.get("/u/:username", requestLimit, (req, res, next) => {
+  const username = req.params.username;
+  User.findOne({ username: username }, (err, user) => {
+    if (err) {
+      errorHandlerLogger.logError(err);
+      res.status(500).send(err);
+    } else {
+      const userData = user;
+      res.send(userData);
+    }
+  });
+});
+
+router.get("/id/:userid", requestLimit, (req, res, next) => {
+  const id = req.params.userid;
+  User.findOne({ _id: id }, (err, user) => {
+    if (err) {
+      errorHandlerLogger.logError(err);
+      res.status(500).send(err);
+    } else {
+      const userData = user;
       res.send(userData);
     }
   });
